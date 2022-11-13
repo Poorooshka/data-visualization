@@ -5,8 +5,6 @@ import Aggregations from "./pages/Aggregations";
 import Home from "./pages/Home";
 import Links from "./pages/Links";
 
-console.log(data);
-
 const App = () => {
   return (
     <Routes>
