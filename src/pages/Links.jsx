@@ -1,21 +1,25 @@
 import { Outlet, Link } from "react-router-dom";
 
+import { Header, StyledLink } from "./Links.style";
+import { useLocation } from "react-router-dom";
+
 const Links = () => {
+  const location = useLocation();
+  const { pathname } = location;
+
   return (
     <>
-      <nav>
-        <ul>
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-          <li>
-            <Link to="/charts">Charts</Link>
-          </li>
-          <li>
-            <Link to="/aggregations">Aggregations</Link>
-          </li>
-        </ul>
-      </nav>
+      <Header>
+        <StyledLink activeLink={pathname === "/"}>
+          <Link to="/">Home</Link>
+        </StyledLink>
+        <StyledLink activeLink={pathname.startsWith("/charts")}>
+          <Link to="/charts">Charts</Link>
+        </StyledLink>
+        <StyledLink activeLink={pathname.startsWith("/aggregations")}>
+          <Link to="/aggregations">Aggregations</Link>
+        </StyledLink>
+      </Header>
 
       <Outlet />
     </>

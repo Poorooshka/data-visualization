@@ -1,8 +1,10 @@
+import { StyledBody } from "./MainLayout.style";
+
 const Home = () => {
   return (
-    <div>
+    <StyledBody>
       <h1 style={{ color: "red" }}>Home Page</h1>
-    </div>
+    </StyledBody>
   );
 };
 

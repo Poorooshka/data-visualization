@@ -1,10 +1,12 @@
 //first view according to the task
 
+import { StyledBody } from "./MainLayout.style";
+
 const Charts = () => {
   return (
-    <div>
+    <StyledBody>
       <h1 style={{ color: "red" }}>charts view</h1>
-    </div>
+    </StyledBody>
   );
 };
 
