@@ -1,4 +1,6 @@
 //first view according to the task
+import data from "../data";
+import { useState } from "react";
 
 import {
   PageWrapper,
@@ -9,12 +11,55 @@ import {
   ChartWrapper,
 } from "./Charts.style";
 
+const batches = Object.keys(data);
+
+const sensors = Object.keys(data[batches[0]]);
+
 const Charts = () => {
+  const [sensorButtons, setSensorButtons] = useState(
+    sensors.reduce(
+      (accumulator, value) => ({ ...accumulator, [value]: true }),
+      {}
+    )
+  );
+
+  const [batchButtons, setBatchButtons] = useState(
+    batches.reduce(
+      (accumulator, value) => ({ ...accumulator, [value]: true }),
+      {}
+    )
+  );
   return (
     <PageWrapper>
       <Sidebar>
-        <Sensors></Sensors>
-        <Batches></Batches>
+        <Sensors>
+          {sensors.map((sensor) => (
+            <button
+              onClick={() => {
+                setSensorButtons((previousState) => ({
+                  ...previousState,
+                  [sensor]: !previousState[sensor],
+                }));
+              }}
+            >
+              {sensor}
+            </button>
+          ))}
+        </Sensors>
+        <Batches>
+          {batches.map((batch) => (
+            <button
+              onClick={() => {
+                setBatchButtons((previousState) => ({
+                  ...previousState,
+                  [batch]: !previousState[batch],
+                }));
+              }}
+            >
+              {batch}
+            </button>
+          ))}
+        </Batches>
       </Sidebar>
       <ChartsWrapper>
         <ChartWrapper></ChartWrapper>
