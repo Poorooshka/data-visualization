@@ -1,13 +1,26 @@
 //first view according to the task
 
-import { StyledBody, Sidebar } from "./MainLayout.style";
+import {
+  PageWrapper,
+  Sidebar,
+  Sensors,
+  Batches,
+  ChartsWrapper,
+  ChartWrapper,
+} from "./Charts.style";
 
 const Charts = () => {
   return (
-    <StyledBody>
-      <Sidebar />
-      <h1 style={{ color: "red" }}>charts view</h1>
-    </StyledBody>
+    <PageWrapper>
+      <Sidebar>
+        <Sensors></Sensors>
+        <Batches></Batches>
+      </Sidebar>
+      <ChartsWrapper>
+        <ChartWrapper></ChartWrapper>
+        <ChartWrapper></ChartWrapper>
+      </ChartsWrapper>
+    </PageWrapper>
   );
 };
 
