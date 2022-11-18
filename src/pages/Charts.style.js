@@ -43,5 +43,11 @@ export const ChartsWrapper = styled.div`
 `;
 
 export const ChartWrapper = styled.div`
-  background-color: yellow;
+  position: relative;
+`;
+
+export const ChartInnerWrapper = styled.div`
+  height: 100%;
+  position: absolute;
+  width: 100%;
 `;
