@@ -1,10 +1,11 @@
 //Second view according to the task
 
-import { StyledBody } from "./MainLayout.style";
+import { StyledBody, Sidebar } from "./MainLayout.style";
 
 const Aggregations = () => {
   return (
     <StyledBody>
+      <Sidebar />
       <h1 style={{ color: "red" }}>Aggregations view</h1>
     </StyledBody>
   );
