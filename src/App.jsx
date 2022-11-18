@@ -1,4 +1,3 @@
-import data from "./data";
 import { Routes, Route } from "react-router-dom";
 import Charts from "./pages/Charts";
 import Aggregations from "./pages/Aggregations";

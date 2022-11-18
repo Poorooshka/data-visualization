@@ -9,6 +9,7 @@ import {
   Batches,
   ChartsWrapper,
   ChartWrapper,
+  StyledButton,
 } from "./Charts.style";
 
 const batches = Object.keys(data);
@@ -29,12 +30,14 @@ const Charts = () => {
       {}
     )
   );
+
   return (
     <PageWrapper>
       <Sidebar>
         <Sensors>
           {sensors.map((sensor) => (
-            <button
+            <StyledButton
+              activeButton={sensorButtons[sensor]}
               onClick={() => {
                 setSensorButtons((previousState) => ({
                   ...previousState,
@@ -43,12 +46,13 @@ const Charts = () => {
               }}
             >
               {sensor}
-            </button>
+            </StyledButton>
           ))}
         </Sensors>
         <Batches>
           {batches.map((batch) => (
-            <button
+            <StyledButton
+              activeButton={batchButtons[batch]}
               onClick={() => {
                 setBatchButtons((previousState) => ({
                   ...previousState,
@@ -57,7 +61,7 @@ const Charts = () => {
               }}
             >
               {batch}
-            </button>
+            </StyledButton>
           ))}
         </Batches>
       </Sidebar>
