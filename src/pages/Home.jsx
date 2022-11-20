@@ -1,9 +1,10 @@
-import { StyledBody } from "./MainLayout.style";
+import { StyledBody, FalconImage, TitleWrapper } from "./MainLayout.style";
 
 const Home = () => {
   return (
     <StyledBody>
-      <h1 style={{ color: "red" }}>Home Page</h1>
+      <FalconImage />
+      <TitleWrapper>Data Visualization Application</TitleWrapper>
     </StyledBody>
   );
 };
