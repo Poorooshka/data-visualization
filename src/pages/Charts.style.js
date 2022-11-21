@@ -11,6 +11,7 @@ export const Sidebar = styled.div`
   display: grid;
   grid-template-rows: 1fr 1fr;
   gap: 10px;
+  height: calc(100vh - 45px);
 `;
 
 export const Sensors = styled.div`
@@ -36,18 +37,13 @@ export const StyledButton = styled.button`
   }
 `;
 
-export const ChartsWrapper = styled.div`
-  display: grid;
-  grid-template-rows: 1fr 1fr;
-  gap: 10px;
-`;
+export const ChartsWrapper = styled.div``;
 
 export const ChartWrapper = styled.div`
   position: relative;
 `;
 
 export const ChartInnerWrapper = styled.div`
-  height: 100%;
-  position: absolute;
+  height: 40vh;
   width: 100%;
 `;

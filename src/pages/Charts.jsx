@@ -1,6 +1,6 @@
 //first view according to the task
 import data from "../data";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import {
   PageWrapper,
@@ -15,278 +15,45 @@ import {
 
 import { ResponsiveLine } from "@nivo/line";
 
-const dummyData = [
-  {
-    id: "japan",
-    color: "hsl(313, 70%, 50%)",
-    data: [
-      {
-        x: "plane",
-        y: 105,
-      },
-      {
-        x: "helicopter",
-        y: 160,
-      },
-      {
-        x: "boat",
-        y: 22,
-      },
-      {
-        x: "train",
-        y: 292,
-      },
-      {
-        x: "subway",
-        y: 197,
-      },
-      {
-        x: "bus",
-        y: 225,
-      },
-      {
-        x: "car",
-        y: 289,
-      },
-      {
-        x: "moto",
-        y: 267,
-      },
-      {
-        x: "bicycle",
-        y: 200,
-      },
-      {
-        x: "horse",
-        y: 167,
-      },
-      {
-        x: "skateboard",
-        y: 221,
-      },
-      {
-        x: "others",
-        y: 47,
-      },
-    ],
-  },
-  {
-    id: "france",
-    color: "hsl(353, 70%, 50%)",
-    data: [
-      {
-        x: "plane",
-        y: 23,
-      },
-      {
-        x: "helicopter",
-        y: 97,
-      },
-      {
-        x: "boat",
-        y: 295,
-      },
-      {
-        x: "train",
-        y: 119,
-      },
-      {
-        x: "subway",
-        y: 253,
-      },
-      {
-        x: "bus",
-        y: 166,
-      },
-      {
-        x: "car",
-        y: 150,
-      },
-      {
-        x: "moto",
-        y: 73,
-      },
-      {
-        x: "bicycle",
-        y: 197,
-      },
-      {
-        x: "horse",
-        y: 116,
-      },
-      {
-        x: "skateboard",
-        y: 66,
-      },
-      {
-        x: "others",
-        y: 260,
-      },
-    ],
-  },
-  {
-    id: "us",
-    color: "hsl(104, 70%, 50%)",
-    data: [
-      {
-        x: "plane",
-        y: 296,
-      },
-      {
-        x: "helicopter",
-        y: 16,
-      },
-      {
-        x: "boat",
-        y: 53,
-      },
-      {
-        x: "train",
-        y: 56,
-      },
-      {
-        x: "subway",
-        y: 258,
-      },
-      {
-        x: "bus",
-        y: 254,
-      },
-      {
-        x: "car",
-        y: 82,
-      },
-      {
-        x: "moto",
-        y: 208,
-      },
-      {
-        x: "bicycle",
-        y: 257,
-      },
-      {
-        x: "horse",
-        y: 212,
-      },
-      {
-        x: "skateboard",
-        y: 67,
-      },
-      {
-        x: "others",
-        y: 30,
-      },
-    ],
-  },
-  {
-    id: "germany",
-    color: "hsl(172, 70%, 50%)",
-    data: [
-      {
-        x: "plane",
-        y: 270,
-      },
-      {
-        x: "helicopter",
-        y: 178,
-      },
-      {
-        x: "boat",
-        y: 149,
-      },
-      {
-        x: "train",
-        y: 150,
-      },
-      {
-        x: "subway",
-        y: 207,
-      },
-      {
-        x: "bus",
-        y: 280,
-      },
-      {
-        x: "car",
-        y: 102,
-      },
-      {
-        x: "moto",
-        y: 249,
-      },
-      {
-        x: "bicycle",
-        y: 288,
-      },
-      {
-        x: "horse",
-        y: 41,
-      },
-      {
-        x: "skateboard",
-        y: 25,
-      },
-      {
-        x: "others",
-        y: 47,
-      },
-    ],
-  },
-  {
-    id: "norway",
-    color: "hsl(86, 70%, 50%)",
-    data: [
-      {
-        x: "plane",
-        y: 45,
-      },
-      {
-        x: "helicopter",
-        y: 94,
-      },
-      {
-        x: "boat",
-        y: 187,
-      },
-      {
-        x: "train",
-        y: 58,
-      },
-      {
-        x: "subway",
-        y: 90,
-      },
-      {
-        x: "bus",
-        y: 234,
-      },
-      {
-        x: "car",
-        y: 144,
-      },
-      {
-        x: "moto",
-        y: 154,
-      },
-      {
-        x: "bicycle",
-        y: 284,
-      },
-      {
-        x: "horse",
-        y: 134,
-      },
-      {
-        x: "skateboard",
-        y: 176,
-      },
-      {
-        x: "others",
-        y: 0,
-      },
-    ],
-  },
-];
+// const transformData = (sensorData, id, color) => {
+//   const dataArray = sensorData.timestamps.map((timestamp, timestampIndex) => ({
+//     x: timestamp,
+//     y: sensorData.values[timestampIndex],
+//   }));
+//   return {
+//     id,
+//     color,
+//     data: dataArray,
+//   };
+// };
+
+// for (const property in data) {
+//   console.log("start", property);
+//   console.log(
+//     data[property]["400E_Temp1"].timestamps[0],
+//     data[property]["400E_Temp1"].timestamps[
+//       data[property]["400E_Temp1"].timestamps.length - 1
+//     ]
+//   );
+//   console.log(
+//     data[property]["400E_Temp2"].timestamps[0],
+//     data[property]["400E_Temp2"].timestamps[
+//       data[property]["400E_Temp2"].timestamps.length - 1
+//     ]
+//   );
+//   console.log(
+//     data[property]["400E_Pres1"].timestamps[0],
+//     data[property]["400E_Pres1"].timestamps[
+//       data[property]["400E_Pres1"].timestamps.length - 1
+//     ]
+//   );
+//   console.log(
+//     data[property]["400E_Pres2"].timestamps[0],
+//     data[property]["400E_Pres2"].timestamps[
+//       data[property]["400E_Pres2"].timestamps.length - 1
+//     ]
+//   );
+// }
 
 const batches = Object.keys(data);
 
@@ -295,59 +62,80 @@ const sensors = Object.keys(data[batches[0]]);
 const Charts = () => {
   const [sensorButtons, setSensorButtons] = useState(
     sensors.reduce(
-      (accumulator, value) => ({ ...accumulator, [value]: true }),
+      (accumulator, value) => ({ ...accumulator, [value]: false }),
       {}
     )
   );
 
   const [batchButtons, setBatchButtons] = useState(
     batches.reduce(
-      (accumulator, value) => ({ ...accumulator, [value]: true }),
+      (accumulator, value) => ({ ...accumulator, [value]: false }),
       {}
     )
   );
 
-  return (
-    <PageWrapper>
-      <Sidebar>
-        <Sensors>
-          {sensors.map((sensor) => (
-            <StyledButton
-              key={sensor}
-              activeButton={sensorButtons[sensor]}
-              onClick={() => {
-                setSensorButtons((previousState) => ({
-                  ...previousState,
-                  [sensor]: !previousState[sensor],
-                }));
-              }}
-            >
-              {sensor}
-            </StyledButton>
-          ))}
-        </Sensors>
-        <Batches>
-          {batches.map((batch) => (
-            <StyledButton
-              key={batch}
-              activeButton={batchButtons[batch]}
-              onClick={() => {
-                setBatchButtons((previousState) => ({
-                  ...previousState,
-                  [batch]: !previousState[batch],
-                }));
-              }}
-            >
-              {batch}
-            </StyledButton>
-          ))}
-        </Batches>
-      </Sidebar>
-      <ChartsWrapper>
+  const transformData = (batchId, id, color, step) => {
+    let dataArray = data[batchId][id].timestamps.map(
+      (timestamp, timestampIndex) => ({
+        x: timestampIndex,
+        y: data[batchId][id].values[timestampIndex],
+      })
+    );
+    // for the sake of simplification we are showing 1 data out of every hundred
+    dataArray = dataArray.filter((item, index) => index % step === 0);
+    return {
+      id: batchId,
+      color,
+      data: dataArray,
+    };
+  };
+
+  console.log(sensorButtons);
+
+  // const dummyData = [
+  //   transformData("BP400E0102", "400E_Pres1", "hsl(330, 70%, 50%)", 100),
+  //   transformData("AP400E0102", "400E_Pres1", "hsl(62, 70%, 50%)", 100),
+  //   transformData("CP400E0102", "400E_Pres1", "hsl(88, 70%, 50%)", 100),
+  //   transformData("BP400E0101", "400E_Pres1", "hsl(330, 70%, 50%)", 100),
+  //   transformData("AP400E0101", "400E_Pres1", "hsl(62, 70%, 50%)", 100),
+  //   transformData("CP400E0101", "400E_Pres1", "hsl(88, 70%, 50%)", 100),
+  // ];
+
+  const batchColors = {
+    AP400E0101: "hsl(330, 70%, 50%)",
+    AP400E0102: "hsl(62, 70%, 50%)",
+    BP400E0101: "hsl(88, 70%, 50%)",
+    BP400E0102: "hsl(41, 70%, 50%)",
+    CP400E0101: "hsl(17, 70%, 50%)",
+    CP400E0102: "hsl(141, 70%, 50%)",
+  };
+
+  const [dummyData, setDummyData] = useState({});
+
+  useEffect(() => {
+    let dummyDataHelper = {};
+    for (let sensorKey in sensorButtons) {
+      dummyDataHelper[sensorKey] = [];
+      for (let key in batchButtons) {
+        if (batchButtons[key]) {
+          dummyDataHelper[sensorKey].push(
+            transformData(key, sensorKey, batchColors[key], 100)
+          );
+        }
+      }
+    }
+    setDummyData(dummyDataHelper);
+  }, [batchButtons]);
+
+  const graphs = [];
+  for (let item in sensorButtons) {
+    if (sensorButtons[item]) {
+      graphs.push(
         <ChartWrapper>
+          {item}
           <ChartInnerWrapper>
             <ResponsiveLine
-              data={dummyData}
+              data={dummyData[item]}
               margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
               xScale={{ type: "point" }}
               yScale={{
@@ -365,7 +153,7 @@ const Charts = () => {
                 tickSize: 5,
                 tickPadding: 5,
                 tickRotation: 0,
-                legend: "transportation",
+                legend: "Time",
                 legendOffset: 36,
                 legendPosition: "middle",
               }}
@@ -374,7 +162,7 @@ const Charts = () => {
                 tickSize: 5,
                 tickPadding: 5,
                 tickRotation: 0,
-                legend: "count",
+                legend: "Value",
                 legendOffset: -40,
                 legendPosition: "middle",
               }}
@@ -413,10 +201,47 @@ const Charts = () => {
             />
           </ChartInnerWrapper>
         </ChartWrapper>
-        <ChartWrapper>
-          <ChartInnerWrapper></ChartInnerWrapper>
-        </ChartWrapper>
-      </ChartsWrapper>
+      );
+    }
+  }
+
+  return (
+    <PageWrapper>
+      <Sidebar>
+        <Sensors>
+          {sensors.map((sensor) => (
+            <StyledButton
+              key={sensor}
+              activeButton={sensorButtons[sensor]}
+              onClick={() => {
+                setSensorButtons((previousState) => ({
+                  ...previousState,
+                  [sensor]: !previousState[sensor],
+                }));
+              }}
+            >
+              {sensor}
+            </StyledButton>
+          ))}
+        </Sensors>
+        <Batches>
+          {batches.map((batch) => (
+            <StyledButton
+              key={batch}
+              activeButton={batchButtons[batch]}
+              onClick={() => {
+                setBatchButtons((previousState) => ({
+                  ...previousState,
+                  [batch]: !previousState[batch],
+                }));
+              }}
+            >
+              {batch}
+            </StyledButton>
+          ))}
+        </Batches>
+      </Sidebar>
+      <ChartsWrapper>{graphs}</ChartsWrapper>
     </PageWrapper>
   );
 };
