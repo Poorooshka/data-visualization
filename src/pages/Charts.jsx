@@ -19,19 +19,32 @@ const batches = Object.keys(data);
 
 const sensors = Object.keys(data[batches[0]]);
 
+const batchColors = {
+  AP400E0101: "hsl(330, 70%, 50%)",
+  AP400E0102: "hsl(62, 70%, 50%)",
+  BP400E0101: "hsl(80, 70%, 50%)",
+  BP400E0102: "hsl(47, 70%, 50%)",
+  CP400E0101: "hsl(17, 70%, 50%)",
+  CP400E0102: "hsl(160, 70%, 50%)",
+};
+
 const Charts = () => {
   let initialSensorButtonsValue = sensors.reduce(
     (accumulator, value) => ({ ...accumulator, [value]: false }),
     {}
   );
+
   initialSensorButtonsValue["400E_Temp1"] = true;
+
   const [sensorButtons, setSensorButtons] = useState(initialSensorButtonsValue);
 
   let initialBatchButtonsValue = batches.reduce(
     (accumulator, value) => ({ ...accumulator, [value]: false }),
     {}
   );
+
   initialBatchButtonsValue["AP400E0101"] = true;
+
   const [batchButtons, setBatchButtons] = useState(initialBatchButtonsValue);
 
   const transformData = (batchId, id, color, step) => {
@@ -41,7 +54,8 @@ const Charts = () => {
         y: data[batchId][id].values[timestampIndex],
       })
     );
-    // for the sake of simplification we are showing 1 data out of every hundred
+
+    // for the sake of simplification we are displaying one data item out of every hundred
     dataArray = dataArray.filter((item, index) => index % step === 0);
     return {
       id: batchId,
@@ -50,33 +64,25 @@ const Charts = () => {
     };
   };
 
-  const batchColors = {
-    AP400E0101: "hsl(330, 70%, 50%)",
-    AP400E0102: "hsl(62, 70%, 50%)",
-    BP400E0101: "hsl(88, 70%, 50%)",
-    BP400E0102: "hsl(41, 70%, 50%)",
-    CP400E0101: "hsl(17, 70%, 50%)",
-    CP400E0102: "hsl(141, 70%, 50%)",
-  };
-
-  const [dummyData, setDummyData] = useState({});
+  const [transformedData, setTransformedData] = useState({});
 
   useEffect(() => {
-    let dummyDataHelper = {};
+    let transformedDataHelper = {};
     for (let sensorKey in sensorButtons) {
-      dummyDataHelper[sensorKey] = [];
+      transformedDataHelper[sensorKey] = [];
       for (let key in batchButtons) {
         if (batchButtons[key]) {
-          dummyDataHelper[sensorKey].push(
-            transformData(key, sensorKey, batchColors[key], 100)
+          transformedDataHelper[sensorKey].push(
+            transformData(key, sensorKey, batchColors[key], 20)
           );
         }
       }
     }
-    setDummyData(dummyDataHelper);
-  }, [batchButtons]);
+    setTransformedData(transformedDataHelper);
+  }, [batchButtons, sensorButtons]);
 
   const graphs = [];
+
   for (let item in sensorButtons) {
     if (sensorButtons[item]) {
       graphs.push(
@@ -84,7 +90,7 @@ const Charts = () => {
           {item}
           <ChartInnerWrapper>
             <ResponsiveLine
-              data={dummyData[item]}
+              data={transformedData[item]}
               margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
               xScale={{ type: "point" }}
               yScale={{
@@ -101,7 +107,7 @@ const Charts = () => {
                 orient: "bottom",
                 tickSize: 5,
                 tickPadding: 5,
-                tickRotation: 0,
+                tickRotation: -90,
                 legend: "Time",
                 legendOffset: 36,
                 legendPosition: "middle",
@@ -153,7 +159,7 @@ const Charts = () => {
       );
     }
   }
-  // A feature added for always having by default one sensor and one batch selected so the page is not left empty
+  // A feature added for always having by default one sensor and one batch selected so the page is never left empty
   const checkAllValuesFalse = (inputValue) => {
     let result = false;
     for (let key in inputValue) {

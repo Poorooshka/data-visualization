@@ -4,6 +4,7 @@ import {
   FirstPart,
   TextWrapper,
   HomepageWrapper,
+  FooterImage,
 } from "./Home.style";
 
 const Home = () => {
@@ -21,11 +22,10 @@ const Home = () => {
         negatively.
         <br /> It is important to mention that the timeseires is developed in
         minutes and it is relative to the startpoint. Simply put we can see the
-        values evolving over every hundred minutes from the begining of the
+        values evolving over every twenty minutes from the beginning of the
         cultivation process.
-        <br /> You can just click on the Charts or Aggregations tab on the top
-        of the page to see the relavant results.
       </TextWrapper>
+      <FooterImage />
     </HomepageWrapper>
   );
 };
