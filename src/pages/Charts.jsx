@@ -1,6 +1,6 @@
 //first view according to the task
 import data from "../data";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import {
   PageWrapper,
@@ -15,339 +15,82 @@ import {
 
 import { ResponsiveLine } from "@nivo/line";
 
-const dummyData = [
-  {
-    id: "japan",
-    color: "hsl(313, 70%, 50%)",
-    data: [
-      {
-        x: "plane",
-        y: 105,
-      },
-      {
-        x: "helicopter",
-        y: 160,
-      },
-      {
-        x: "boat",
-        y: 22,
-      },
-      {
-        x: "train",
-        y: 292,
-      },
-      {
-        x: "subway",
-        y: 197,
-      },
-      {
-        x: "bus",
-        y: 225,
-      },
-      {
-        x: "car",
-        y: 289,
-      },
-      {
-        x: "moto",
-        y: 267,
-      },
-      {
-        x: "bicycle",
-        y: 200,
-      },
-      {
-        x: "horse",
-        y: 167,
-      },
-      {
-        x: "skateboard",
-        y: 221,
-      },
-      {
-        x: "others",
-        y: 47,
-      },
-    ],
-  },
-  {
-    id: "france",
-    color: "hsl(353, 70%, 50%)",
-    data: [
-      {
-        x: "plane",
-        y: 23,
-      },
-      {
-        x: "helicopter",
-        y: 97,
-      },
-      {
-        x: "boat",
-        y: 295,
-      },
-      {
-        x: "train",
-        y: 119,
-      },
-      {
-        x: "subway",
-        y: 253,
-      },
-      {
-        x: "bus",
-        y: 166,
-      },
-      {
-        x: "car",
-        y: 150,
-      },
-      {
-        x: "moto",
-        y: 73,
-      },
-      {
-        x: "bicycle",
-        y: 197,
-      },
-      {
-        x: "horse",
-        y: 116,
-      },
-      {
-        x: "skateboard",
-        y: 66,
-      },
-      {
-        x: "others",
-        y: 260,
-      },
-    ],
-  },
-  {
-    id: "us",
-    color: "hsl(104, 70%, 50%)",
-    data: [
-      {
-        x: "plane",
-        y: 296,
-      },
-      {
-        x: "helicopter",
-        y: 16,
-      },
-      {
-        x: "boat",
-        y: 53,
-      },
-      {
-        x: "train",
-        y: 56,
-      },
-      {
-        x: "subway",
-        y: 258,
-      },
-      {
-        x: "bus",
-        y: 254,
-      },
-      {
-        x: "car",
-        y: 82,
-      },
-      {
-        x: "moto",
-        y: 208,
-      },
-      {
-        x: "bicycle",
-        y: 257,
-      },
-      {
-        x: "horse",
-        y: 212,
-      },
-      {
-        x: "skateboard",
-        y: 67,
-      },
-      {
-        x: "others",
-        y: 30,
-      },
-    ],
-  },
-  {
-    id: "germany",
-    color: "hsl(172, 70%, 50%)",
-    data: [
-      {
-        x: "plane",
-        y: 270,
-      },
-      {
-        x: "helicopter",
-        y: 178,
-      },
-      {
-        x: "boat",
-        y: 149,
-      },
-      {
-        x: "train",
-        y: 150,
-      },
-      {
-        x: "subway",
-        y: 207,
-      },
-      {
-        x: "bus",
-        y: 280,
-      },
-      {
-        x: "car",
-        y: 102,
-      },
-      {
-        x: "moto",
-        y: 249,
-      },
-      {
-        x: "bicycle",
-        y: 288,
-      },
-      {
-        x: "horse",
-        y: 41,
-      },
-      {
-        x: "skateboard",
-        y: 25,
-      },
-      {
-        x: "others",
-        y: 47,
-      },
-    ],
-  },
-  {
-    id: "norway",
-    color: "hsl(86, 70%, 50%)",
-    data: [
-      {
-        x: "plane",
-        y: 45,
-      },
-      {
-        x: "helicopter",
-        y: 94,
-      },
-      {
-        x: "boat",
-        y: 187,
-      },
-      {
-        x: "train",
-        y: 58,
-      },
-      {
-        x: "subway",
-        y: 90,
-      },
-      {
-        x: "bus",
-        y: 234,
-      },
-      {
-        x: "car",
-        y: 144,
-      },
-      {
-        x: "moto",
-        y: 154,
-      },
-      {
-        x: "bicycle",
-        y: 284,
-      },
-      {
-        x: "horse",
-        y: 134,
-      },
-      {
-        x: "skateboard",
-        y: 176,
-      },
-      {
-        x: "others",
-        y: 0,
-      },
-    ],
-  },
-];
-
 const batches = Object.keys(data);
 
 const sensors = Object.keys(data[batches[0]]);
 
+const batchColors = {
+  AP400E0101: "hsl(330, 70%, 50%)",
+  AP400E0102: "hsl(62, 70%, 50%)",
+  BP400E0101: "hsl(80, 70%, 50%)",
+  BP400E0102: "hsl(47, 70%, 50%)",
+  CP400E0101: "hsl(17, 70%, 50%)",
+  CP400E0102: "hsl(160, 70%, 50%)",
+};
+
 const Charts = () => {
-  const [sensorButtons, setSensorButtons] = useState(
-    sensors.reduce(
-      (accumulator, value) => ({ ...accumulator, [value]: true }),
-      {}
-    )
+  let initialSensorButtonsValue = sensors.reduce(
+    (accumulator, value) => ({ ...accumulator, [value]: false }),
+    {}
   );
 
-  const [batchButtons, setBatchButtons] = useState(
-    batches.reduce(
-      (accumulator, value) => ({ ...accumulator, [value]: true }),
-      {}
-    )
+  initialSensorButtonsValue["400E_Temp1"] = true;
+
+  const [sensorButtons, setSensorButtons] = useState(initialSensorButtonsValue);
+
+  let initialBatchButtonsValue = batches.reduce(
+    (accumulator, value) => ({ ...accumulator, [value]: false }),
+    {}
   );
 
-  return (
-    <PageWrapper>
-      <Sidebar>
-        <Sensors>
-          {sensors.map((sensor) => (
-            <StyledButton
-              key={sensor}
-              activeButton={sensorButtons[sensor]}
-              onClick={() => {
-                setSensorButtons((previousState) => ({
-                  ...previousState,
-                  [sensor]: !previousState[sensor],
-                }));
-              }}
-            >
-              {sensor}
-            </StyledButton>
-          ))}
-        </Sensors>
-        <Batches>
-          {batches.map((batch) => (
-            <StyledButton
-              key={batch}
-              activeButton={batchButtons[batch]}
-              onClick={() => {
-                setBatchButtons((previousState) => ({
-                  ...previousState,
-                  [batch]: !previousState[batch],
-                }));
-              }}
-            >
-              {batch}
-            </StyledButton>
-          ))}
-        </Batches>
-      </Sidebar>
-      <ChartsWrapper>
+  initialBatchButtonsValue["AP400E0101"] = true;
+
+  const [batchButtons, setBatchButtons] = useState(initialBatchButtonsValue);
+
+  const transformData = (batchId, id, color, step) => {
+    let dataArray = data[batchId][id].timestamps.map(
+      (timestamp, timestampIndex) => ({
+        x: timestampIndex,
+        y: data[batchId][id].values[timestampIndex],
+      })
+    );
+
+    // for the sake of simplification we are displaying one data item out of every hundred
+    dataArray = dataArray.filter((item, index) => index % step === 0);
+    return {
+      id: batchId,
+      color,
+      data: dataArray,
+    };
+  };
+
+  const [transformedData, setTransformedData] = useState({});
+
+  useEffect(() => {
+    let transformedDataHelper = {};
+    for (let sensorKey in sensorButtons) {
+      transformedDataHelper[sensorKey] = [];
+      for (let key in batchButtons) {
+        if (batchButtons[key]) {
+          transformedDataHelper[sensorKey].push(
+            transformData(key, sensorKey, batchColors[key], 20)
+          );
+        }
+      }
+    }
+    setTransformedData(transformedDataHelper);
+  }, [batchButtons, sensorButtons]);
+
+  const graphs = [];
+
+  for (let item in sensorButtons) {
+    if (sensorButtons[item]) {
+      graphs.push(
         <ChartWrapper>
+          {item}
           <ChartInnerWrapper>
             <ResponsiveLine
-              data={dummyData}
+              data={transformedData[item]}
               margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
               xScale={{ type: "point" }}
               yScale={{
@@ -364,8 +107,8 @@ const Charts = () => {
                 orient: "bottom",
                 tickSize: 5,
                 tickPadding: 5,
-                tickRotation: 0,
-                legend: "transportation",
+                tickRotation: -90,
+                legend: "Time",
                 legendOffset: 36,
                 legendPosition: "middle",
               }}
@@ -374,7 +117,7 @@ const Charts = () => {
                 tickSize: 5,
                 tickPadding: 5,
                 tickRotation: 0,
-                legend: "count",
+                legend: "Value",
                 legendOffset: -40,
                 legendPosition: "middle",
               }}
@@ -413,10 +156,63 @@ const Charts = () => {
             />
           </ChartInnerWrapper>
         </ChartWrapper>
-        <ChartWrapper>
-          <ChartInnerWrapper></ChartInnerWrapper>
-        </ChartWrapper>
-      </ChartsWrapper>
+      );
+    }
+  }
+  // A feature added for always having by default one sensor and one batch selected so the page is never left empty
+  const checkAllValuesFalse = (inputValue) => {
+    let result = false;
+    for (let key in inputValue) {
+      result = result || inputValue[key];
+    }
+    return !result;
+  };
+
+  const onSensorClick = (sensor) => {
+    let helper = { ...sensorButtons };
+    helper[sensor] = !helper[sensor];
+    if (checkAllValuesFalse(helper)) {
+      return;
+    }
+    setSensorButtons(helper);
+  };
+
+  const onBatchClick = (batch) => {
+    let helper = { ...batchButtons };
+    helper[batch] = !helper[batch];
+    if (checkAllValuesFalse(helper)) {
+      return;
+    }
+    setBatchButtons(helper);
+  };
+
+  return (
+    <PageWrapper>
+      <Sidebar>
+        <Sensors>
+          {sensors.map((sensor) => (
+            <StyledButton
+              key={sensor}
+              activeButton={sensorButtons[sensor]}
+              onClick={() => onSensorClick(sensor)}
+            >
+              {sensor}
+            </StyledButton>
+          ))}
+        </Sensors>
+        <Batches>
+          {batches.map((batch) => (
+            <StyledButton
+              key={batch}
+              activeButton={batchButtons[batch]}
+              onClick={() => onBatchClick(batch)}
+            >
+              {batch}
+            </StyledButton>
+          ))}
+        </Batches>
+      </Sidebar>
+      <ChartsWrapper>{graphs}</ChartsWrapper>
     </PageWrapper>
   );
 };
