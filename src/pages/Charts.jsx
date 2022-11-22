@@ -15,64 +15,24 @@ import {
 
 import { ResponsiveLine } from "@nivo/line";
 
-// const transformData = (sensorData, id, color) => {
-//   const dataArray = sensorData.timestamps.map((timestamp, timestampIndex) => ({
-//     x: timestamp,
-//     y: sensorData.values[timestampIndex],
-//   }));
-//   return {
-//     id,
-//     color,
-//     data: dataArray,
-//   };
-// };
-
-// for (const property in data) {
-//   console.log("start", property);
-//   console.log(
-//     data[property]["400E_Temp1"].timestamps[0],
-//     data[property]["400E_Temp1"].timestamps[
-//       data[property]["400E_Temp1"].timestamps.length - 1
-//     ]
-//   );
-//   console.log(
-//     data[property]["400E_Temp2"].timestamps[0],
-//     data[property]["400E_Temp2"].timestamps[
-//       data[property]["400E_Temp2"].timestamps.length - 1
-//     ]
-//   );
-//   console.log(
-//     data[property]["400E_Pres1"].timestamps[0],
-//     data[property]["400E_Pres1"].timestamps[
-//       data[property]["400E_Pres1"].timestamps.length - 1
-//     ]
-//   );
-//   console.log(
-//     data[property]["400E_Pres2"].timestamps[0],
-//     data[property]["400E_Pres2"].timestamps[
-//       data[property]["400E_Pres2"].timestamps.length - 1
-//     ]
-//   );
-// }
-
 const batches = Object.keys(data);
 
 const sensors = Object.keys(data[batches[0]]);
 
 const Charts = () => {
-  const [sensorButtons, setSensorButtons] = useState(
-    sensors.reduce(
-      (accumulator, value) => ({ ...accumulator, [value]: false }),
-      {}
-    )
+  let initialSensorButtonsValue = sensors.reduce(
+    (accumulator, value) => ({ ...accumulator, [value]: false }),
+    {}
   );
+  initialSensorButtonsValue["400E_Temp1"] = true;
+  const [sensorButtons, setSensorButtons] = useState(initialSensorButtonsValue);
 
-  const [batchButtons, setBatchButtons] = useState(
-    batches.reduce(
-      (accumulator, value) => ({ ...accumulator, [value]: false }),
-      {}
-    )
+  let initialBatchButtonsValue = batches.reduce(
+    (accumulator, value) => ({ ...accumulator, [value]: false }),
+    {}
   );
+  initialBatchButtonsValue["AP400E0101"] = true;
+  const [batchButtons, setBatchButtons] = useState(initialBatchButtonsValue);
 
   const transformData = (batchId, id, color, step) => {
     let dataArray = data[batchId][id].timestamps.map(
@@ -89,17 +49,6 @@ const Charts = () => {
       data: dataArray,
     };
   };
-
-  console.log(sensorButtons);
-
-  // const dummyData = [
-  //   transformData("BP400E0102", "400E_Pres1", "hsl(330, 70%, 50%)", 100),
-  //   transformData("AP400E0102", "400E_Pres1", "hsl(62, 70%, 50%)", 100),
-  //   transformData("CP400E0102", "400E_Pres1", "hsl(88, 70%, 50%)", 100),
-  //   transformData("BP400E0101", "400E_Pres1", "hsl(330, 70%, 50%)", 100),
-  //   transformData("AP400E0101", "400E_Pres1", "hsl(62, 70%, 50%)", 100),
-  //   transformData("CP400E0101", "400E_Pres1", "hsl(88, 70%, 50%)", 100),
-  // ];
 
   const batchColors = {
     AP400E0101: "hsl(330, 70%, 50%)",
@@ -204,6 +153,32 @@ const Charts = () => {
       );
     }
   }
+  // A feature added for always having by default one sensor and one batch selected so the page is not left empty
+  const checkAllValuesFalse = (inputValue) => {
+    let result = false;
+    for (let key in inputValue) {
+      result = result || inputValue[key];
+    }
+    return !result;
+  };
+
+  const onSensorClick = (sensor) => {
+    let helper = { ...sensorButtons };
+    helper[sensor] = !helper[sensor];
+    if (checkAllValuesFalse(helper)) {
+      return;
+    }
+    setSensorButtons(helper);
+  };
+
+  const onBatchClick = (batch) => {
+    let helper = { ...batchButtons };
+    helper[batch] = !helper[batch];
+    if (checkAllValuesFalse(helper)) {
+      return;
+    }
+    setBatchButtons(helper);
+  };
 
   return (
     <PageWrapper>
@@ -213,12 +188,7 @@ const Charts = () => {
             <StyledButton
               key={sensor}
               activeButton={sensorButtons[sensor]}
-              onClick={() => {
-                setSensorButtons((previousState) => ({
-                  ...previousState,
-                  [sensor]: !previousState[sensor],
-                }));
-              }}
+              onClick={() => onSensorClick(sensor)}
             >
               {sensor}
             </StyledButton>
@@ -229,12 +199,7 @@ const Charts = () => {
             <StyledButton
               key={batch}
               activeButton={batchButtons[batch]}
-              onClick={() => {
-                setBatchButtons((previousState) => ({
-                  ...previousState,
-                  [batch]: !previousState[batch],
-                }));
-              }}
+              onClick={() => onBatchClick(batch)}
             >
               {batch}
             </StyledButton>

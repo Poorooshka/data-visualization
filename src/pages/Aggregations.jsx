@@ -10,12 +10,12 @@ import {
 
 const titles = [
   "Batches",
-  "Temp Max",
-  "temp Min",
-  "temp AVG",
-  "Pres Max",
-  "pres Min",
-  "pres AVG",
+  "Temperature Max.",
+  "Temperature Min.",
+  "Temperature Avg.",
+  "Pressure Max.",
+  "Pressure Min.",
+  "Pressure Avg.",
 ];
 
 const calculateCellValue = (batch, columnNumber) => {

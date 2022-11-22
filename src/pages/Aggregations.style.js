@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const PageWrapper = styled.div`
   display: flex;
   justify-content: center;
-  padding-top: 45px;
+  padding-top: 70px;
 `;
 
 export const StyledTable = styled.div`
@@ -11,7 +11,7 @@ export const StyledTable = styled.div`
   padding: 0;
   flex-direction: column;
   width: 1402px;
-  border: 1px solid black;
+  height: fit-content;
 `;
 
 export const StyledRow = styled.div`
