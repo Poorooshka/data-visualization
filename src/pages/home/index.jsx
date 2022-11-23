@@ -5,7 +5,7 @@ import {
   TextWrapper,
   HomepageWrapper,
   FooterImage,
-} from "./Home.style";
+} from "./style";
 
 const Home = () => {
   return (
@@ -20,7 +20,7 @@ const Home = () => {
         items, due to a huge amount of data, which barely results in a
         user-friendly view of the charts. This could also affect data analysis
         negatively.
-        <br /> It is important to mention that the timeseires is developed in
+        <br /> It is important to mention that the timeseries is developed in
         minutes and it is relative to the startpoint. Simply put we can see the
         values evolving over every twenty minutes from the beginning of the
         cultivation process.

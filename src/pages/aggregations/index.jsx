@@ -1,12 +1,7 @@
 //Second view according to the task
-import data from "../data";
+import data from "../../data";
 
-import {
-  PageWrapper,
-  StyledTable,
-  StyledRow,
-  StyledCell,
-} from "./Aggregations.style";
+import { PageWrapper, StyledTable, StyledRow, StyledCell } from "./style";
 
 const titles = [
   "Batches",

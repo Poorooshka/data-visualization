@@ -1,6 +1,6 @@
 import { Outlet, Link } from "react-router-dom";
 
-import { Header, StyledLink } from "./Links.style";
+import { Header, StyledLink } from "./style";
 import { useLocation } from "react-router-dom";
 
 const Links = () => {

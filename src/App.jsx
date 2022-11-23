@@ -1,8 +1,8 @@
 import { Routes, Route } from "react-router-dom";
-import Charts from "./pages/Charts";
-import Aggregations from "./pages/Aggregations";
-import Home from "./pages/Home";
-import Links from "./pages/Links";
+import Charts from "./pages/charts";
+import Aggregations from "./pages/aggregations";
+import Home from "./pages/home";
+import Links from "./layout/links";
 import { AppWrapper } from "./App.style";
 
 const App = () => {
