@@ -16,7 +16,7 @@ const Home = () => {
       </FirstPart>
       <TextWrapper>
         For the purpose of clarity and improved user experience of the data
-        visualizations this application picks one data item out of every hundred
+        visualizations this application picks one data item out of every twenty
         items, due to a huge amount of data, which barely results in a
         user-friendly view of the charts. This could also affect data analysis
         negatively.

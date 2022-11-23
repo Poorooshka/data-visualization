@@ -39,7 +39,6 @@ const Charts = () => {
       })
     );
 
-    // for the sake of simplification we are displaying one data item out of every hundred
     dataArray = dataArray.filter((item, index) => index % step === 0);
     return {
       id: batchId,
